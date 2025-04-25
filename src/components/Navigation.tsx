@@ -20,16 +20,18 @@ const Navigation = () => {
         <Link to="/contact" className="text-gray-600 hover:text-rideeasy-purple transition-colors">
           Contact
         </Link>
-        <Link to="/login">
-          <Button variant="outline" className="border-rideeasy-purple text-rideeasy-purple hover:bg-rideeasy-purple hover:text-white">
-            Log In
-          </Button>
-        </Link>
-        <Link to="/signup">
-          <Button className="bg-rideeasy-purple hover:bg-rideeasy-darkpurple text-white">
-            Sign Up
-          </Button>
-        </Link>
+        <div className="flex space-x-2">
+          <Link to="/login/passenger">
+            <Button variant="outline" className="border-rideeasy-purple text-rideeasy-purple hover:bg-rideeasy-purple hover:text-white">
+              Passenger Login
+            </Button>
+          </Link>
+          <Link to="/login/rider">
+            <Button className="bg-rideeasy-purple hover:bg-rideeasy-darkpurple text-white">
+              Rider Login
+            </Button>
+          </Link>
+        </div>
       </div>
       
       {/* Mobile menu button - expand in a real app */}
