@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
+import { authService } from "@/services/authService";
 
 const Login = () => {
   const { role } = useParams<{ role: string }>();
@@ -19,31 +20,46 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     
-    // This would be replaced with actual authentication logic
-    setTimeout(() => {
+    if (!role || (role !== 'rider' && role !== 'passenger')) {
+      toast({
+        title: "Invalid role",
+        description: "Please select rider or passenger role",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await authService.login({ email, password }, role);
+      
       toast({
         title: "Login successful!",
         description: `Welcome back to RideEasy as a ${role}!`,
       });
-      setLoading(false);
+      
       navigate(`/${role}/dashboard`);
-    }, 1500);
+    } catch (error: any) {
+      const message = error.response?.data?.message || "Failed to login. Please check your credentials.";
+      toast({
+        title: "Login failed",
+        description: message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
   
-  const handleGoogleLogin = () => {
-    // This would be replaced with Google OAuth implementation
-    setLoading(true);
-    
-    setTimeout(() => {
-      toast({
-        title: "Google login successful!",
-        description: `Welcome back to RideEasy as a ${role}!`,
-      });
-      setLoading(false);
-      navigate(`/${role}/dashboard`);
-    }, 1500);
+  const handleGoogleLogin = async () => {
+    // In a real application, you would integrate Google OAuth
+    // This is just a placeholder for demonstration
+    toast({
+      title: "Google login",
+      description: "Google authentication would be implemented with a real backend",
+      variant: "default",
+    });
   };
   
   return (
